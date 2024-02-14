@@ -1,6 +1,8 @@
 import re
 import requests
 import hashlib
+import secrets
+import string
 
 def is_complex_enough(password):
     # Check length
@@ -37,14 +39,18 @@ def is_password_compromised(password):
     # Check if the suffix of the hash appears in the response
     return suffix in response.text
 
+def generate_secure_password():
+    alphabet = string.ascii_letters + string.digits + string.punctuation
+    secure_password = ''.join(secrets.choice(alphabet) for _ in range(12))  # Generate a 12-character password
+    return secure_password
+
 # Test the functions
 password = input("Enter a password: ")
-if is_complex_enough(password):
-    print("Password is complex enough.")
-    
-    if is_password_compromised(password):
-        print("Password has been compromised.")
-    else:
-        print("Password has not been compromised.")
+
+if not is_complex_enough(password) or is_password_compromised(password):
+    print("The entered password is not complex enough or has been compromised.")
+    print("Generating a new secure password...")
+    new_password = generate_secure_password()
+    print("New secure password:", new_password)
 else:
-    print("Password is not complex enough.")
+    print("Password is complex enough and has not been compromised.")
