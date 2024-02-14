@@ -44,13 +44,20 @@ def generate_secure_password():
     secure_password = ''.join(secrets.choice(alphabet) for _ in range(12))  # Generate a 12-character password
     return secure_password
 
-# Test the functions
-password = input("Enter a password: ")
-
-if not is_complex_enough(password) or is_password_compromised(password):
-    print("The entered password is not complex enough or has been compromised.")
-    print("Generating a new secure password...")
-    new_password = generate_secure_password()
-    print("New secure password:", new_password)
-else:
-    print("Password is complex enough and has not been compromised.")
+# Main
+password = input ("Welcome to my NIST password checker. Please enter a password or q to quit: ")
+while (password != 'q'):
+    if not is_password_compromised(password) and password != 'q':
+        print("The entered password has been compromised and should be replaced")
+        print("Generating a new secure password...")
+        new_password = generate_secure_password()
+        print("New secure password:", new_password)
+    else:
+        if not is_complex_enough(password) and password != 'q':
+            print("The entered password is not complex enough and should be replaced")
+            print("Generating a new secure password...")
+            new_password = generate_secure_password()
+            print("New secure password:", new_password)
+        else:
+            print("Password is complex enough and has not been compromised.")
+    password = input("Enter a password or q to quit: ")
